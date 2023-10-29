@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Night Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Movie Night Recommendations</h1>
+        <p class="lead">No idea for movie night? Get a recommendation just now!</p>
+        <div class="row">
+            <div class="col-4">
+                <form action="/recommendation/1" method="post">
+                    <button class="btn btn-primary btn-circle" type="submit">Just for me</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <form action="/recommendation/2" method="post">
+                    <button class="btn btn-primary btn-circle" type="submit">For a couple</button>
+                </form>
+            </div>
+            <div class="col-4">
+                <form action="/recommendation/3" method="post">
+                    <button class="btn btn-primary btn-circle" type="submit">For a group of friends</button>
+                </form>
+            </div>
+        </div>
+        <p class="mt-4" id="result">
+            {% if message %}
+                {{ message }}
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>
