@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .movie-card {
+            display: flex;
+            align-items: center;
+        }
+
+        .movie-card img {
+            max-height: 200px;
+        }
+
+        .movie-info {
+            margin-left: 20px;
+        }
+
+        .stats-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .retry-button {
+            position: absolute;
+            top: 20px;
+            right: 150px;
+        }
+
+        .tab-pane img.centered-image {
+            display: block;
+            margin: 0 auto;
+
+        }
+        .nav-tabs {
+            border-bottom: 2px solid #f8f9fa;
+            width: 100%; 
+            
+        }
+        .nav-tabs .nav-link {
+            background-color: #f8f9fa; 
+            color: #007bff; 
+            border: 1px solid #ddd; 
+        }
+        .nav-tabs .nav-link:hover {
+            border-color: #bfbfc0; 
+            border-bottom-color: transparent;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #ffff; 
+            color: #007bff; 
+            border: 2px solid #bfbfc0; 
+            border-bottom-color: transparent
+        }
+        .btn-close {
+            color: #0c1ae1 !important; /* Set the close button color to black */
+            opacity: 1; /* Ensure the close button is fully opaque */
+        }
+        
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="container">
+        <h1 class="mt-5 display-5">Movie Recommendations for You!</h1>
+        <!-- "See Some Stats" button -->
+        <a class="btn btn-primary btn-lg stats-button" data-bs-toggle="modal" data-bs-target="#statsModal">See Stats</a>
+        <a class="btn btn-secondary btn-lg retry-button" href="/">Try Again</a>
+        <div class="row mt-3">
+            <div class="col">
+                <div class="card" style="border-radius: 10px; background-color: #5c6c7e69;">
+                    <div class="card-body" >
+                        <h5 class="card-title">Recommendations for {{ selected_movie }}</h5>
+                        <div class="list-group">
+                            {% for _, row in recommendations_movie.iterrows() %}
+                                <a href="#" class="list-group-item list-group-item-action">
+                                    <div class="movie-card">
+                                        <img src="{{ row['poster_url'] }}" alt="Movie Poster">
+                                        <div class="movie-info">
+                                            <h5>{{ row['title'] }}</h5>
+                                            <p>{{ row['genres'] }} | {{ row['release_date'] }}</p>
+                                            <p>{{ row['overview'] }}</p>
+                                            <p><strong>Cast:</strong> {{row['cast'].split(", ")[:5] | join(", ") }}</p>
+                                            <p><strong>Director:</strong> {{ row['director'] }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Modal -->
+    <div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content bg-light text-dark">
+            <div class="modal-header " style="border-bottom: 2px solid #d0d5dc">
+                <h5 class="modal-title" id="statsModalLabel">Basic statistics of recommended movies by features</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+            </div>
+                <div class="modal-body ">
+                    <ul class="nav nav-tabs" id="statsTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="chart1-tab" data-bs-toggle="tab" data-bs-target="#chart1" type="button" role="tab" aria-controls="chart1" aria-selected="true">Genres</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="chart2-tab" data-bs-toggle="tab" data-bs-target="#chart2" type="button" role="tab" aria-controls="chart2" aria-selected="false">Release year</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="chart3-tab" data-bs-toggle="tab" data-bs-target="#chart3" type="button" role="tab" aria-controls="chart3" aria-selected="false">Actors</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="chart4-tab" data-bs-toggle="tab" data-bs-target="#chart4" type="button" role="tab" aria-controls="chart4" aria-selected="false">Directors</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="chart5-tab" data-bs-toggle="tab" data-bs-target="#chart5" type="button" role="tab" aria-controls="chart5" aria-selected="false">Popularity</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content bg-white" id="statsTabContent">
+                        <div class="tab-pane fade show active" id="chart1" role="tabpanel" aria-labelledby="chart1-tab">
+                            <img src="/static/genres.png" alt="Genres" class="centered-image">
+                        </div>
+                        <div class="tab-pane fade" id="chart2" role="tabpanel" aria-labelledby="chart2-tab">
+                            <img src="/static/release_dates.png" alt="Release Dates" class="centered-image">
+                        </div>
+                        <div class="tab-pane fade" id="chart3" role="tabpanel" aria-labelledby="chart3-tab">
+                            <img src="/static/actors.png" alt="Actors" class="centered-image">
+                        </div>
+                        <div class="tab-pane fade" id="chart4" role="tabpanel" aria-labelledby="chart4-tab">
+                            <img src="/static/directors.png" alt="Directors" class="centered-image">
+                        </div>
+                        <div class="tab-pane fade" id="chart5" role="tabpanel" aria-labelledby="chart5-tab">
+                            <img src="/static/popular_movies.png" alt="Popularity" class="centered-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

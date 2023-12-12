@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  data-bs-theme="dark">
+<head>
+    <title>Your Movie Advisor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            border: 0;
+            border-color: #000000ba;
+            border-radius: 0;
+            color: #fff;
+            box-shadow: 5px 5px 10px #000000ba;
+            border-radius: 10%;
+            padding: 3em 0;
+            background: linear-gradient(to left, #4d505494 50%, #004ec4a4 50%);
+            background-size: 200%;
+            background-position: right;
+            transition: background-position 0.5s ease-out;
+          }
+          .card:hover {
+            background-position: left;
+          }
+          
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5 display-5">Movie Advisor</h1>
+        <p class="lead mt-3 text-muted">No idea what to watch today? Get a recommendation just now by using your personalized Movie Advisor!</p>
+        <div class="row mt-5">
+            <div class="col-4">
+                <form action="/recommendation/1" method="post">
+                    <div class="card" style="width:350px; ">
+                        <div class="card-body">
+                          <h4 class="card-title">Just for you!</h4>
+                          <p class="card-text mt-4"> You don't know what to watch tonight? Are you tired of looking for a good movie that you will really love? That's where Movie Advisor comes in to help you! Just choose a movie you liked and there you go - a list of perfect movies is waiting for you!</p>
+                          <button class="btn btn-outline-light btn-lg rounded-2 mt-4" type="submit">Try it out!</button>
+                        </div>
+                      </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form action="/recommendation/2" method="post">
+                    <div class="card" style="width:350px; ">
+                        <div class="card-body">
+                          <h4 class="card-title">For a Couple!</h4>
+                          <p class="card-text mt-4"> Remember this feeling when it's so hard to choose what to watch with your date? Or maybe with you friend? You don't have to be worried anymore cause Movie Advisor will help you to choose perfect movie that fits you both! </p>
+                          <button class="btn btn-outline-light btn-lg rounded-2 mt-4" type="submit">Try it out!</button>
+                        </div>
+                      </div>
+                </form>
+            </div>
+            <div class="col-4">
+                <form action="/recommendation/3" method="post">
+                    <div class="card" style="width:350px; ">
+                        <div class="card-body">
+                          <h4 class="card-title">Group of Friends!</h4>
+                          <p class="card-text mt-4">You want to watch something with your friends but everyone likes something different? Now it's not a problem! Try Movie Advisor with your friends - each of you can provide movie he/she likes and we will find the most suitable titles for whole group!</p>
+                          <button class="btn btn-outline-light btn-lg rounded-2 mt-4" type="submit">Try it out!</button>
+                        </div>
+                      </div>
+                </form>
+            </div>
+        </div>
+        <p class="mt-4" id="result">
+            {% if message %}
+                {{ message }}
+            {% endif %}
+        </p>
+    </div>
+</body>
+</html>
